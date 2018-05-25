@@ -766,6 +766,10 @@ class EE_Dependency_Map
             'EventEspresso\core\domain\entities\editor\blocks\widgets\EventAttendees' => array(
                 'EventEspresso\core\domain\entities\editor\blocks\CoreBlocksAssetManager' => self::load_from_cache,
             ),
+            'EventEspresso\core\domain\entities\editor\blocks\widgets\EventsList' => array(
+                'EventEspresso\core\domain\entities\editor\blocks\CoreBlocksAssetManager' => self::load_from_cache,
+                'EventEspresso\core\domain\entities\shortcodes\EspressoEvents'            => self::load_from_cache,
+            ),
         );
     }
 
