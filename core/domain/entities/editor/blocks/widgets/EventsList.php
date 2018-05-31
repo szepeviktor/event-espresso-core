@@ -49,7 +49,7 @@ class EventsList extends Block
         $this->setBlockType(self::BLOCK_TYPE);
         $this->setSupportedPostTypes(array('post', 'page'));
         $this->setAttributes(array());
-        $this->setDynamic();
+        // $this->setDynamic();
     }
 
 
@@ -65,7 +65,8 @@ class EventsList extends Block
      */
     public function renderBlock(array $attributes = array())
     {
-        return '<h2>' . __METHOD__ . '()</h2>' . var_export($attributes, true)
-               . $this->shortcode->processShortcode($attributes);
+        return '';
+        /*'<h2>' . __METHOD__ . '()</h2>' . var_export($attributes, true)
+               . $this->shortcode->processShortcode($attributes);*/
     }
 }
