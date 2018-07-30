@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="Event Espresso">
+  <domain name="event_espresso">
+    <project name="Event Espresso 4" slug="event_espresso">
+      <source>
+        <directory>.</directory>
+        <exclude>
+          <directory>assets</directory>
+          <directory>wp-assets</directory>
+          <directory>core/third-party-libs</directory>
+        </exclude>
+      </source>
+      <target>
+        <directory>languages</directory>
+        <directory>../../uploads/espresso/languages</directory>
+      </target>
+      <template>
+        <file>languages/event_espresso.pot</file>
+      </template>
+    </project>
+  </domain>
+</bundle>
