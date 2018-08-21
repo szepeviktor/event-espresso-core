@@ -17,6 +17,21 @@ import {
 } from '@wordpress/blocks';
 import { BlockEdit } from '@wordpress/editor';
 
+function mockFunctions() {
+	const original = require.requireActual( '@wordpress/blocks' );
+	return {
+		...original, //Pass down all the exported objects
+		getCategories: jest.fn( () => [
+			...original.getCategories(),
+			{
+				slug: 'event-espresso',
+				title: __( 'Event Espresso', 'event_espresso' )
+			}
+		] ),
+	}
+}
+jest.mock( '@wordpress/blocks', () => mockFunctions() );
+
 /**
  * copy of `/gutenberg/packages/block-library/src/test/helpers/index.js`
  * but using shallow rendering
@@ -26,7 +41,7 @@ import { BlockEdit } from '@wordpress/editor';
  * @return {string} the rendered edit block
  */
 export const blockEditRender = ( name, settings ) => {
-	addEspressoBlockCategories();
+	// addEspressoBlockCategories();
 	if ( ! getBlockType( name ) ) {
 		registerBlockType( name, settings );
 	}
@@ -46,17 +61,15 @@ export const blockEditRender = ( name, settings ) => {
 /**
  * adds EE custom categories to wp.blocks categories
  */
-const addEspressoBlockCategories = () => {
-	const categories = getCategories();
-	if ( ! some( categories, { slug: 'event-espresso' } ) ) {
-		categories.push(
-			{
-				"slug": 'event-espresso',
-				"title": __( 'Event Espresso', 'event_espresso' )
-			}
-		);
-		setCategories( categories );
-	}
-};
-
-
+// const addEspressoBlockCategories = () => {
+// 	const categories = getCategories();
+// 	if ( ! some( categories, { slug: 'event-espresso' } ) ) {
+// 		categories.push(
+// 			{
+// 				"slug": 'event-espresso',
+// 				"title": __( 'Event Espresso', 'event_espresso' )
+// 			}
+// 		);
+// 		setCategories( categories );
+// 	}
+// };
