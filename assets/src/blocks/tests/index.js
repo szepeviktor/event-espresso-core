@@ -12,32 +12,20 @@ import {
 	createBlock,
 	getBlockType,
 	registerBlockType,
-	getCategories,
-	setCategories
 } from '@wordpress/blocks';
-import { BlockEdit } from '@wordpress/editor';
+//registers the store
+import '@wordpress/editor';
 
-function mockFunctions() {
-	const original = require.requireActual( '@wordpress/blocks' );
-	return {
-		...original, //Pass down all the exported objects
-		getCategories: jest.fn( () => [
-			...original.getCategories(),
-			{
-				slug: 'event-espresso',
-				title: __( 'Event Espresso', 'event_espresso' )
-			}
-		] ),
-	}
-}
-jest.mock( '@wordpress/blocks', () => mockFunctions() );
+const BlockEdit = ( props ) => {
+	return <div { ...props } />
+};
 
 /**
  * copy of `/gutenberg/packages/block-library/src/test/helpers/index.js`
  * but using shallow rendering
  *
  * @param {string} name
- * @param {string} settings
+ * @param {object} settings
  * @return {string} the rendered edit block
  */
 export const blockEditRender = ( name, settings ) => {
@@ -54,7 +42,7 @@ export const blockEditRender = ( name, settings ) => {
 			attributes={ block.attributes }
 			setAttributes={ noop }
 			user={ {} }
-		/>,
+		/>
 	);
 };
 
