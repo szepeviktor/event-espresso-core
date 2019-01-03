@@ -874,6 +874,12 @@ class EE_Ticket extends EE_Soft_Delete_Base_Class implements EEI_Line_Item_Objec
     {
         $qty = absint($qty);
         $reserved = $this->reserved() + $qty;
+        do_action(
+            'AHEE__EE_Ticket__increase_reserved__begin',
+            $this,
+            $qty,
+            $reserved
+        );
         if ($reserved
             && $this->add_extra_meta(
                 EE_Ticket::META_KEY_TICKET_RESERVATIONS,
