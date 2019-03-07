@@ -30,7 +30,6 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
 
 
     /**
-     *
      * @param array  $props_n_values          incoming values
      * @param string $timezone                incoming timezone (if not set the timezone set for the website will be
      *                                        used.)
@@ -38,10 +37,19 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *                                        date_format and the second value is the time format
      * @return EE_Line_Item
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public static function new_instance($props_n_values = array(), $timezone = null, $date_formats = array())
     {
-        $has_object = parent::_check_for_object($props_n_values, __CLASS__, $timezone, $date_formats);
+        $has_object = parent::_check_for_object(
+            $props_n_values,
+            __CLASS__,
+            $timezone,
+            $date_formats
+        );
         return $has_object
             ? $has_object
             : new self($props_n_values, false, $timezone);
@@ -54,6 +62,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *                                the website will be used.
      * @return EE_Line_Item
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public static function new_instance_from_db($props_n_values = array(), $timezone = null)
     {
@@ -68,6 +80,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param bool   $bydb
      * @param string $timezone
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     protected function __construct($fieldValues = array(), $bydb = false, $timezone = '')
     {
@@ -83,6 +99,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function ID()
     {
@@ -95,6 +115,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function TXN_ID()
     {
@@ -107,6 +131,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param int $TXN_ID
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_TXN_ID($TXN_ID)
     {
@@ -119,6 +147,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function name()
     {
@@ -135,6 +167,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $name
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_name($name)
     {
@@ -147,6 +183,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function desc()
     {
@@ -159,6 +199,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $desc
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_desc($desc)
     {
@@ -171,6 +215,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function quantity()
     {
@@ -183,6 +231,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param int $quantity
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_quantity($quantity)
     {
@@ -195,6 +247,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function OBJ_ID()
     {
@@ -207,6 +263,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $item_id
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_OBJ_ID($item_id)
     {
@@ -219,6 +279,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function OBJ_type()
     {
@@ -231,25 +295,29 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function OBJ_type_i18n()
     {
         $obj_type = $this->OBJ_type();
         switch ($obj_type) {
-            case 'Event':
-                $obj_type = __('Event', 'event_espresso');
+            case EEM_Line_Item::OBJ_TYPE_EVENT:
+                $obj_type = esc_html__('Event', 'event_espresso');
                 break;
-            case 'Price':
-                $obj_type = __('Price', 'event_espresso');
+            case EEM_Line_Item::OBJ_TYPE_PRICE:
+                $obj_type = esc_html__('Price', 'event_espresso');
                 break;
-            case 'Promotion':
-                $obj_type = __('Promotion', 'event_espresso');
+            case EEM_Line_Item::OBJ_TYPE_PROMOTION:
+                $obj_type = esc_html__('Promotion', 'event_espresso');
                 break;
-            case 'Ticket':
-                $obj_type = __('Ticket', 'event_espresso');
+            case EEM_Line_Item::OBJ_TYPE_TICKET:
+                $obj_type = esc_html__('Ticket', 'event_espresso');
                 break;
-            case 'Transaction':
-                $obj_type = __('Transaction', 'event_espresso');
+            case EEM_Line_Item::OBJ_TYPE_TRANSACTION:
+                $obj_type = esc_html__('Transaction', 'event_espresso');
                 break;
         }
         return apply_filters('FHEE__EE_Line_Item__OBJ_type_i18n', $obj_type, $this);
@@ -261,6 +329,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $OBJ_type
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_OBJ_type($OBJ_type)
     {
@@ -274,6 +346,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function unit_price()
     {
@@ -305,6 +381,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param float $unit_price
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_unit_price($unit_price)
     {
@@ -320,6 +400,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return boolean
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_percent()
     {
@@ -339,7 +423,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
         if ($unit_price >= .001 && $percent) {
             throw new EE_Error(
                 sprintf(
-                    esc_html__('A Line Item can not have a unit price of (%s) AND a percent (%s)!', 'event_espresso'),
+                    esc_html__(
+                        'A Line Item can not have a unit price of (%s) AND a percent (%s)!',
+                        'event_espresso'
+                    ),
                     $unit_price,
                     $percent
                 )
@@ -355,6 +442,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function percent()
     {
@@ -367,6 +458,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param float $percent
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_percent($percent)
     {
@@ -379,6 +474,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function total()
     {
@@ -391,6 +490,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param float $total
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_total($total)
     {
@@ -406,6 +509,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function order()
     {
@@ -418,6 +525,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param int $order
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_order($order)
     {
@@ -430,6 +541,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function parent_ID()
     {
@@ -442,6 +557,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param int $parent
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_parent_ID($parent)
     {
@@ -454,6 +573,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function type()
     {
@@ -466,6 +589,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $type
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_type($type)
     {
@@ -481,6 +608,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return EE_Base_Class|EE_Line_Item
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function parent()
     {
@@ -495,6 +626,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return EE_Base_Class[]|EE_Line_Item[]
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function children()
     {
@@ -518,6 +653,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function code()
     {
@@ -530,6 +669,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param string $code
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_code($code)
     {
@@ -542,6 +685,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return boolean
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_taxable()
     {
@@ -554,6 +701,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param boolean $is_taxable
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_is_taxable($is_taxable)
     {
@@ -565,11 +716,14 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * Gets the object that this model-joins-to.
      * returns one of the model objects that the field OBJ_ID can point to... see the 'OBJ_ID' field on
      * EEM_Promotion_Object
-     *
      *        Eg, if this line item join model object is for a ticket, this will return the EE_Ticket object
      *
      * @return EE_Base_Class | NULL
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_object()
     {
@@ -587,13 +741,19 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param array $query_params
      * @return EE_Base_Class|EE_Ticket
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function ticket($query_params = array())
     {
-        // we're going to assume that when this method is called we always want to receive the attached ticket EVEN if that ticket is archived.  This can be overridden via the incoming $query_params argument
+        // we're going to assume that when this method is called
+        // we always want to receive the attached ticket EVEN if that ticket is archived.
+        // This can be overridden via the incoming $query_params argument
         $remove_defaults = array('default_where_conditions' => 'none');
         $query_params = array_merge($remove_defaults, $query_params);
-        return $this->get_first_related('Ticket', $query_params);
+        return $this->get_first_related(EEM_Line_Item::OBJ_TYPE_TICKET, $query_params);
     }
 
 
@@ -602,10 +762,14 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return EE_Datetime | NULL
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_ticket_datetime()
     {
-        if ($this->OBJ_type() === 'Ticket') {
+        if ($this->OBJ_type() === EEM_Line_Item::OBJ_TYPE_TICKET) {
             $ticket = $this->ticket();
             if ($ticket instanceof EE_Ticket) {
                 $datetime = $ticket->first_datetime();
@@ -624,6 +788,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function ticket_event_name()
     {
@@ -641,6 +809,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return EE_Event|null
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function ticket_event()
     {
@@ -663,6 +835,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param string $time_format
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function ticket_datetime_start($date_format = '', $time_format = '')
     {
@@ -683,6 +859,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param bool          $set_order
      * @return bool success
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function add_child_line_item(EEI_Line_Item $line_item, $set_order = true)
     {
@@ -718,6 +898,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @param EE_Line_Item $line_item
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function set_parent($line_item)
     {
@@ -742,6 +926,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param string $code
      * @return EE_Base_Class|EE_Line_Item|EE_Soft_Delete_Base_Class|NULL
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_child_line_item($code)
     {
@@ -762,6 +950,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function delete_children_line_items()
     {
@@ -786,6 +978,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @return int count of items deleted (or simply removed from the line item's cache, if not has not been saved to
      *             the DB yet)
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function delete_child_line_item($code, $stop_search_once_found = true)
     {
@@ -818,6 +1014,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return boolean
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function delete_if_childless_subtotal()
     {
@@ -833,6 +1033,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return string
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function generate_code()
     {
@@ -844,6 +1048,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_tax()
     {
@@ -854,6 +1062,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_tax_sub_total()
     {
@@ -864,6 +1076,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_line_item()
     {
@@ -874,6 +1090,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_sub_line_item()
     {
@@ -884,6 +1104,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_sub_total()
     {
@@ -896,6 +1120,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return boolean
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_cancellation()
     {
@@ -906,6 +1134,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_total()
     {
@@ -916,6 +1148,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return bool
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function is_cancelled()
     {
@@ -926,6 +1162,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return string like '2, 004.00', formatted according to the localized currency
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function unit_price_no_code()
     {
@@ -936,6 +1176,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
     /**
      * @return string like '2, 004.00', formatted according to the localized currency
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function total_no_code()
     {
@@ -950,13 +1194,16 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * TXN_total (provided this line item is allowed to persist, otherwise we don't
      * want to change a persistable transaction with info from a non-persistent line item)
      *
+     * @param bool $update_txn_status
      * @return float
      * @throws EE_Error
      * @throws InvalidArgumentException
-     * @throws InvalidInterfaceException
      * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
-    public function recalculate_total_including_taxes()
+    public function recalculate_total_including_taxes($update_txn_status = false)
     {
         $pre_tax_total = $this->recalculate_pre_tax_total();
         $tax_total = $this->recalculate_taxes_and_tax_total();
@@ -972,6 +1219,11 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
                EE_Transaction
         ) {
             $this->transaction()->set_total($total);
+            if ($update_txn_status) {
+                // don't save the TXN because that will be done below
+                // and the following method only saves if the status changes
+                $this->transaction()->update_status_based_on_total_paid(false);
+            }
             if ($this->transaction()->ID()) {
                 $this->transaction()->save();
             }
@@ -988,10 +1240,11 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * when this is called on the grand total
      *
      * @return float
-     * @throws InvalidArgumentException
-     * @throws InvalidInterfaceException
-     * @throws InvalidDataTypeException
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function recalculate_pre_tax_total()
     {
@@ -1011,7 +1264,7 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
         // ensure all non-line items and non-sub-line-items have a quantity of 1 (except for Events)
         if (! $this->is_line_item() && ! $this->is_sub_line_item() && ! $this->is_cancellation()
         ) {
-            if ($this->OBJ_type() !== 'Event') {
+            if ($this->OBJ_type() !== EEM_Line_Item::OBJ_TYPE_EVENT) {
                 $this->set_quantity(1);
             }
             if (! $this->is_percent()) {
@@ -1049,10 +1302,11 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param float          $calculated_total_so_far
      * @param EE_Line_Item[] $my_children
      * @return float
-     * @throws InvalidArgumentException
-     * @throws InvalidInterfaceException
-     * @throws InvalidDataTypeException
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     protected function _recalculate_pretax_total_for_subtotal($calculated_total_so_far, $my_children = null)
     {
@@ -1102,10 +1356,11 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param float          $calculated_total_so_far
      * @param EE_Line_Item[] $my_children
      * @return float
-     * @throws InvalidArgumentException
-     * @throws InvalidInterfaceException
-     * @throws InvalidDataTypeException
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     protected function _recalculate_pretax_total_for_line_item($calculated_total_so_far, $my_children = null)
     {
@@ -1156,6 +1411,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function recalculate_taxes_and_tax_total()
     {
@@ -1181,6 +1440,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return void
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     private function _recalculate_tax_sub_total()
     {
@@ -1213,6 +1476,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_total_tax()
     {
@@ -1232,6 +1499,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_items_total()
     {
@@ -1257,6 +1528,7 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * are of the type 'tax'
      *
      * @return EE_Line_Item[]
+     * @throws EE_Error
      */
     public function tax_descendants()
     {
@@ -1268,6 +1540,7 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * Gets all the real items purchased which are children of this item
      *
      * @return EE_Line_Item[]
+     * @throws EE_Error
      */
     public function get_items()
     {
@@ -1283,6 +1556,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return float
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function taxable_total()
     {
@@ -1311,10 +1588,14 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return EE_Base_Class|EE_Transaction
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function transaction()
     {
-        return $this->get_first_related('Transaction');
+        return $this->get_first_related(EEM_Line_Item::OBJ_TYPE_TRANSACTION);
     }
 
 
@@ -1327,6 +1608,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param int $txn_id if none is provided, assumes $this->TXN_ID()
      * @return int count of items saved
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function save_this_and_descendants_to_txn($txn_id = null)
     {
@@ -1354,6 +1639,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int count of items saved
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function save_this_and_descendants()
     {
@@ -1394,6 +1683,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      *
      * @return int count of items saved
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function maybe_save()
     {
@@ -1420,6 +1713,10 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @param bool $raw
      * @return int
      * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function timestamp($raw = false)
     {
@@ -1436,12 +1733,16 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @deprecated 4.6.0
      * @param string $type one of the constants on EEM_Line_Item
      * @return EE_Line_Item[]
+     * @throws EE_Error
      */
     protected function _get_descendants_of_type($type)
     {
         EE_Error::doing_it_wrong(
             'EE_Line_Item::_get_descendants_of_type()',
-            __('Method replaced with EEH_Line_Item::get_descendants_of_type()', 'event_espresso'),
+            sprintf(
+                esc_html__('Method replaced with %1$s', 'event_espresso'),
+                'EEH_Line_Item::get_descendants_of_type()'
+            ),
             '4.6.0'
         );
         return EEH_Line_Item::get_descendants_of_type($this, $type);
@@ -1452,12 +1753,20 @@ class EE_Line_Item extends EE_Base_Class implements EEI_Line_Item
      * @deprecated 4.6.0
      * @param string $type like one of the EEM_Line_Item::type_*
      * @return EE_Line_Item
+     * @throws EE_Error
+     * @throws InvalidArgumentException
+     * @throws InvalidDataTypeException
+     * @throws InvalidInterfaceException
+     * @throws ReflectionException
      */
     public function get_nearest_descendant_of_type($type)
     {
         EE_Error::doing_it_wrong(
             'EE_Line_Item::get_nearest_descendant_of_type()',
-            __('Method replaced with EEH_Line_Item::get_nearest_descendant_of_type()', 'event_espresso'),
+            sprintf(
+                esc_html__('Method replaced with %1$s', 'event_espresso'),
+                'EEH_Line_Item::get_nearest_descendant_of_type()'
+            ),
             '4.6.0'
         );
         return EEH_Line_Item::get_nearest_descendant_of_type($this, $type);
