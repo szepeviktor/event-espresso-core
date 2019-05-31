@@ -300,9 +300,11 @@ class General_Settings_Admin_Page extends EE_Admin_Page
         wp_enqueue_script('organization_settings');
         wp_enqueue_style('organization-css');
         $confirm_image_delete = array(
-            'text' => __(
-                'Do you really want to delete this image? Please remember to save your settings to complete the removal.',
-                'event_espresso'
+            'text' => wp_strip_all_tags(
+                __(
+                    'Do you really want to delete this image? Please remember to save your settings to complete the removal.',
+                    'event_espresso'
+                )
             ),
         );
         wp_localize_script('organization_settings', 'confirm_image_delete', $confirm_image_delete);
