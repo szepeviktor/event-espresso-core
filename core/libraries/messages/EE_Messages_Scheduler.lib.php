@@ -36,7 +36,17 @@ class EE_Messages_Scheduler extends EE_Base
             array('EE_Messages_Scheduler', 'batch_generation')
         )) {
             add_action('AHEE__EE_Messages_Scheduler__generation', array('EE_Messages_Scheduler', 'batch_generation'));
+        }
+        if (! has_action(
+            'AHEE__EE_Messages_Scheduler__sending',
+            array('EE_Messages_Scheduler', 'batch_sending')
+        )) {
             add_action('AHEE__EE_Messages_Scheduler__sending', array('EE_Messages_Scheduler', 'batch_sending'));
+        }
+        if (! has_action(
+            'AHEE__EE_Messages_Scheduler__cleanup',
+            array('EE_Messages_Scheduler', 'cleanup')
+        )) {
             add_action('AHEE__EE_Messages_Scheduler__cleanup', array('EE_Messages_Scheduler', 'cleanup'));
         }
 
