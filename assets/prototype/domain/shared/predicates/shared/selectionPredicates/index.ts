@@ -1,7 +1,18 @@
-import { filter, find, includes, prop, propEq } from 'ramda';
+/**
+ * External dependencies
+ */
+import { filter, find, includes, prop, propOr, propEq } from 'ramda';
+
+/**
+ * Internal dependencies
+ */
+import { Entity } from '../../../../eventEditor/data/types';
 
 // the following return specified entity prop
-export const entityDbId = (entity) => prop('dbId', entity);
+export const entityDbId = (entity: Entity): number | null => {
+	const dbId = propOr<number | undefined>(null, 'dbId', entity);
+	return dbId ? dbId : null;
+};
 export const entityGuId = (entity) => prop('id', entity);
 
 // the following return `true` if entity satisfies predicate
