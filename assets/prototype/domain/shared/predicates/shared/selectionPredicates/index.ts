@@ -10,8 +10,7 @@ import { Entity } from '../../../../eventEditor/data/types';
 
 // the following return specified entity prop
 export const entityDbId = (entity: Entity): number | null => {
-	const dbId = propOr<number | undefined>(null, 'dbId', entity);
-	return dbId ? dbId : null;
+	return prop('dbId', entity) ?? null;
 };
 export const entityGuId = (entity) => prop('id', entity);
 
