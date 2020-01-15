@@ -16,23 +16,23 @@ use Exception;
 class StatsGatherer
 {
 
-    const COUNT_ALL_EVENTS = 'event';
-    const COUNT_ACTIVE_EVENTS = 'active_event';
-    const COUNT_DATETIMES = 'datetime';
-    const COUNT_TICKETS = 'ticket';
-    const COUNT_DATETIMES_SOLD = 'datetime_sold';
-    const COUNT_TICKETS_FREE = 'free_ticket';
-    const COUNT_TICKETS_PAID = 'paid_ticket';
-    const COUNT_TICKETS_SOLD = 'ticket_sold';
-    const COUNT_REGISTRATIONS_APPROVED = 'registrations_approved';
-    const COUNT_REGISTRATIONS_NOT_APPROVED = 'registrations_not_approved';
-    const COUNT_REGISTRATIONS_PENDING = 'registrations_pending';
-    const COUNT_REGISTRATIONS_INCOMPLETE = 'registrations_incomplete';
-    const COUNT_REGISTRATIONS_ALL = 'registrations_all';
-    const COUNT_REGISTRATIONS_CANCELLED = 'registrations_cancelled';
-    const COUNT_REGISTRATIONS_DECLINED = 'registrations_declined';
-    const SUM_TRANSACTIONS_COMPLETE_TOTAL = 'transactions_complete_total_sum';
-    const SUM_TRANSACTIONS_ALL_PAID = 'transactions_all_paid';
+    // const COUNT_ALL_EVENTS = 'event';
+    // const COUNT_ACTIVE_EVENTS = 'active_event';
+    // const COUNT_DATETIMES = 'datetime';
+    // const COUNT_TICKETS = 'ticket';
+    // const COUNT_DATETIMES_SOLD = 'datetime_sold';
+    // const COUNT_TICKETS_FREE = 'free_ticket';
+    // const COUNT_TICKETS_PAID = 'paid_ticket';
+    // const COUNT_TICKETS_SOLD = 'ticket_sold';
+    // const COUNT_REGISTRATIONS_APPROVED = 'registrations_approved';
+    // const COUNT_REGISTRATIONS_NOT_APPROVED = 'registrations_not_approved';
+    // const COUNT_REGISTRATIONS_PENDING = 'registrations_pending';
+    // const COUNT_REGISTRATIONS_INCOMPLETE = 'registrations_incomplete';
+    // const COUNT_REGISTRATIONS_ALL = 'registrations_all';
+    // const COUNT_REGISTRATIONS_CANCELLED = 'registrations_cancelled';
+    // const COUNT_REGISTRATIONS_DECLINED = 'registrations_declined';
+    // const SUM_TRANSACTIONS_COMPLETE_TOTAL = 'transactions_complete_total_sum';
+    // const SUM_TRANSACTIONS_ALL_PAID = 'transactions_all_paid';
     const INFO_SITE_CURRENCY = 'site_currency';
 
 
@@ -115,28 +115,28 @@ class StatsGatherer
     public function stats()
     {
         global $wp_version;
-        $stats = $this->paymentMethodStats();
+        // $stats = $this->paymentMethodStats();
         // a-ok so let's setup our stats.
-        $stats = array_merge($stats, array(
+        $stats = array(
             'is_multisite'                    => is_multisite() && is_main_site(),
             'active_theme'                    => $this->getActiveThemeStat(),
-            'ee4_all_events_count'            => $this->getCountFor(self::COUNT_ALL_EVENTS),
-            'ee4_active_events_count'         => $this->getCountFor(self::COUNT_ACTIVE_EVENTS),
-            'all_dtts_count'                  => $this->getCountFor(self::COUNT_DATETIMES),
-            'dtt_sold'                        => $this->getCountFor(self::COUNT_DATETIMES_SOLD),
-            'all_tkt_count'                   => $this->getCountFor(self::COUNT_TICKETS),
-            'free_tkt_count'                  => $this->getCountFor(self::COUNT_TICKETS_FREE),
-            'paid_tkt_count'                  => $this->getCountFor(self::COUNT_TICKETS_PAID),
-            'tkt_sold'                        => $this->getCountFor(self::COUNT_TICKETS_SOLD),
-            'approve_registration_count'      => $this->getCountFor(self::COUNT_REGISTRATIONS_APPROVED),
-            'pending_registration_count'      => $this->getCountFor(self::COUNT_REGISTRATIONS_PENDING),
-            'not_approved_registration_count' => $this->getCountFor(self::COUNT_REGISTRATIONS_NOT_APPROVED),
-            'incomplete_registration_count'   => $this->getCountFor(self::COUNT_REGISTRATIONS_INCOMPLETE),
-            'cancelled_registration_count'    => $this->getCountFor(self::COUNT_REGISTRATIONS_CANCELLED),
-            'declined_registration_count'     => $this->getCountFor(self::COUNT_REGISTRATIONS_DECLINED),
-            'all_registration_count'          => $this->getCountFor(self::COUNT_REGISTRATIONS_ALL),
-            'completed_transaction_total_sum' => $this->getCountFor(self::SUM_TRANSACTIONS_COMPLETE_TOTAL),
-            'all_transaction_paid_sum'        => $this->getCountFor(self::SUM_TRANSACTIONS_ALL_PAID),
+            // 'ee4_all_events_count'            => $this->getCountFor(self::COUNT_ALL_EVENTS),
+            // 'ee4_active_events_count'         => $this->getCountFor(self::COUNT_ACTIVE_EVENTS),
+            // 'all_dtts_count'                  => $this->getCountFor(self::COUNT_DATETIMES),
+            // 'dtt_sold'                        => $this->getCountFor(self::COUNT_DATETIMES_SOLD),
+            // 'all_tkt_count'                   => $this->getCountFor(self::COUNT_TICKETS),
+            // 'free_tkt_count'                  => $this->getCountFor(self::COUNT_TICKETS_FREE),
+            // 'ptaid_tkt_count'                  => $this->getCountFor(self::COUNT_TICKETS_PAID),
+            // 'tkt_sold'                        => $this->getCountFor(self::COUNT_TICKETS_SOLD),
+            // 'approve_registration_count'      => $this->getCountFor(self::COUNT_REGISTRATIONS_APPROVED),
+            // 'pending_registration_count'      => $this->getCountFor(self::COUNT_REGISTRATIONS_PENDING),
+            // 'not_approved_registration_count' => $this->getCountFor(self::COUNT_REGISTRATIONS_NOT_APPROVED),
+            // 'incomplete_registration_count'   => $this->getCountFor(self::COUNT_REGISTRATIONS_INCOMPLETE),
+            // 'cancelled_registration_count'    => $this->getCountFor(self::COUNT_REGISTRATIONS_CANCELLED),
+            // 'declined_registration_count'     => $this->getCountFor(self::COUNT_REGISTRATIONS_DECLINED),
+            // 'all_registration_count'          => $this->getCountFor(self::COUNT_REGISTRATIONS_ALL),
+            // 'completed_transaction_total_sum' => $this->getCountFor(self::SUM_TRANSACTIONS_COMPLETE_TOTAL),
+            // 'all_transaction_paid_sum'        => $this->getCountFor(self::SUM_TRANSACTIONS_ALL_PAID),
             self::INFO_SITE_CURRENCY          => $this->config->currency instanceof EE_Currency_Config
                 ? $this->config->currency->code
                 : 'unknown',
@@ -146,7 +146,7 @@ class StatsGatherer
             ),
             'wpversion'                       => $wp_version,
             'active_addons'                   => $this->getActiveAddons(),
-        ));
+        );
         // remove any values that equal null.  This ensures any stats that weren't retrieved successfully are excluded.
         return array_filter($stats, function ($value) {
             return $value !== null;
