@@ -143,9 +143,7 @@ module.exports = function(webpackEnv) {
 	};
 
 	const entry = Object.entries(entries).reduce((newObj, [entry, path]) => {
-		newObj[entry] = [isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'), path].filter(
-			Boolean
-		);
+		newObj[entry] = [path].filter(Boolean);
 
 		return newObj;
 	}, {});
@@ -170,7 +168,7 @@ module.exports = function(webpackEnv) {
 
 		output: {
 			// The build folder.
-			path: isEnvProduction ? paths.appBuild : undefined,
+			path: paths.appBuild,
 			// Add /* filename */ comments to generated require()s in the output.
 			pathinfo: isEnvDevelopment,
 			// There will be one main bundle, and one file per asynchronous chunk.
