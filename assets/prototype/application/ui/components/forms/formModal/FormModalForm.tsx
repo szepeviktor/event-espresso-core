@@ -1,4 +1,6 @@
 import React, { useEffect, useState, CSSProperties } from 'react';
+import { Modal } from 'antd';
+import 'antd/dist/antd.css';
 
 import { FormModalFormProps } from './types';
 import { EspressoButton, EspressoButtonStyle } from '../../input/espressoButton';
@@ -29,6 +31,8 @@ const FormModalForm: React.FC<FormModalFormProps> = ({
 	handleSubmit,
 	submitting,
 	pristine,
+	isOpen,
+	loading,
 	onClose,
 	...formProps
 }) => {
@@ -44,42 +48,42 @@ const FormModalForm: React.FC<FormModalFormProps> = ({
 		}
 	});
 
+	const onCancel = (click) => {
+		click.preventDefault();
+		setFormReset(true);
+		onClose();
+	};
+
+	const modalProps = {
+		visible: isOpen,
+		okText: 'save',
+		onOk: () => form.submit(),
+		cancelText: 'reset',
+		onCancel,
+		confirmLoading: loading,
+		destroyOnClose: true,
+		width: 900,
+		okButtonProps: {
+			icon: 'save',
+		},
+	};
+
 	return (
-		<form onSubmit={handleSubmit}>
-			<div style={formStyle}>
-				<FormComponent
-					form={form}
-					values={values}
-					submitting={submitting}
-					pristine={pristine}
-					formReset={formReset}
-					{...formProps}
-				/>
-			</div>
-			<div style={btnRowStyle}>
-				<EspressoButton
-					icon={'save'}
-					type={'submit'}
-					style={EspressoButtonStyle.PRIMARY}
-					buttonText={'Submit'}
-					disabled={submitting || pristine}
-					onClick={(click) => {
-						click.preventDefault();
-						form.submit();
-						onClose(click);
-					}}
-				/>
-				<EspressoButton
-					buttonText={'Reset'}
-					disabled={submitting || pristine}
-					onClick={(click) => {
-						click.preventDefault();
-						setFormReset(true);
-					}}
-				/>
-			</div>
-			<pre style={dataStyle}>{JSON.stringify(values, null, 2)}</pre>
-		</form>
+		<Modal {...modalProps}>
+			<form onSubmit={handleSubmit}>
+				<div style={formStyle}>
+					<FormComponent
+						form={form}
+						values={values}
+						submitting={submitting}
+						pristine={pristine}
+						formReset={formReset}
+						{...formProps}
+					/>
+				</div>
+				<pre style={dataStyle}>{JSON.stringify(values, null, 2)}</pre>
+			</form>
+		</Modal>
 	);
 };
 

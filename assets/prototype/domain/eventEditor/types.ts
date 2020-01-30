@@ -41,6 +41,7 @@ export interface EditItemProps {
 }
 
 export interface EditItemButtonProps {
+	id: EntityId;
 	position?: string;
 }
 

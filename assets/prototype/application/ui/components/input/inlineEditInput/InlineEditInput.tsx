@@ -9,9 +9,13 @@ interface InlineEditInputProps {
 const InlineEditInput: React.FC<InlineEditInputProps> = ({ component: Component, defaultValue, value, ...rest }) => {
 	const [currentValue, setcurrentValue] = useState(defaultValue);
 
-	useEffect(() => setcurrentValue(value), [value]);
+	useEffect(() => {
+		if (value !== currentValue) {
+			setcurrentValue(value);
+		}
+	}, [value]);
 
-	return <Component value={currentValue} onChange={(newValue) => setcurrentValue(newValue)} {...rest} />;
+	return <Component value={currentValue} onChange={(newValue: string) => setcurrentValue(newValue)} {...rest} />;
 };
 
 export default InlineEditInput;

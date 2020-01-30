@@ -22,9 +22,9 @@ export interface BackwardSubscription {
 	onError?: OnMutationErrorFn;
 }
 export interface EntityMutator {
-	createEntity: (input: MutationInput, subscriptions?: BackwardSubscription) => MutationResult;
-	updateEntity: (input: MutationInput, subscriptions?: BackwardSubscription) => MutationResult;
-	deleteEntity: (input?: MutationInput, subscriptions?: BackwardSubscription) => MutationResult;
+	createEntity: (input: MutationInput, subscriptions?: BackwardSubscription) => Promise<MutationResult>;
+	updateEntity: (input: MutationInput, subscriptions?: BackwardSubscription) => Promise<MutationResult>;
+	deleteEntity: (input?: MutationInput, subscriptions?: BackwardSubscription) => Promise<MutationResult>;
 }
 
 export interface CustomMutationOptions extends MutationOptions {

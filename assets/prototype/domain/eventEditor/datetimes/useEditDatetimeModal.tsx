@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import DateForm from './dateForm/DateForm';
-import { useEntityMutator, EntityType } from '../../../application/services/apollo/mutations';
+import { useEntityMutator, EntityType, MutationResult } from '../../../application/services/apollo/mutations';
 import { DateItemFormProps } from './types';
 import {
 	useEditorModal,
@@ -18,8 +18,8 @@ const useEditDatetimeModal: EditorModal = (entityId) => {
 	}, [closeEditor]);
 
 	const onSubmit = useCallback<ModalSubmit>(
-		(fields: any): void => {
-			updateEntity({ ...fields });
+		async (fields: any): Promise<MutationResult> => {
+			return await updateEntity({ ...fields });
 		},
 		[updateEntity]
 	);

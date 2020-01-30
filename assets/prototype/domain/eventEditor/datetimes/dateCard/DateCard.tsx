@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import moment from 'moment';
-import { Button, Card, EditableText, Elevation, H4, H6, Popover } from '@blueprintjs/core/lib/esm';
+import { Button, Card, DatePicker, RangePickerValue } from 'antd';
 
 import DeleteDatetimeButton from './DeleteDateButton';
 import EditDateButton from './EditDateButton';
@@ -10,19 +10,38 @@ import { DatetimeProvider } from '../../context/DatetimeContext';
 import useDatetimeItem from '../../data/queries/datetimes/useDatetimeItem';
 import TicketIdTag from '../../tickets/TicketIdTag';
 
-import DateRangePicker from '../../../shared/dateRangeInput/DateRangePicker';
 import { DateRangeDisplay } from '../../../shared/dateRangeInput/dateDisplay';
 import { PLUS_ONE_MONTH, PLUS_TWO_MONTHS } from '../../../shared/defaultDates';
 
-import { useEntityMutator, EntityType, MutationResult } from '../../../../application/services/apollo/mutations';
+import { useEntityMutator, EntityType } from '../../../../application/services/apollo/mutations';
 import useRelations from '../../../../application/services/apollo/relations/useRelations';
 import { useStatus, TypeName } from '../../../../application/services/apollo/status';
-import InlineEditInput from '../../../../application/ui/components/input/inlineEditInput/InlineEditInput';
 import { ListItemProps } from '../../types';
-import { btnStyle, cardStyle, idStyle } from './styles';
+import { menuStyle, cardStyle, cardDetailsStype, dateStyle, idStyle, pickerStyle } from './styles';
+
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
+
+const statusBgColor = (date: Datetime): string => {
+	if (date.isTrashed) {
+		return '#4a4843';
+	}
+	if (date.isExpired) {
+		return '#838182';
+	}
+	if (date.isSoldOut) {
+		return '#795d9d';
+	}
+	if (date.isActive) {
+		return '#91ab30';
+	}
+	return '#0182c0';
+};
 
 const DateCard: React.FC<ListItemProps> = ({ id }): JSX.Element => {
+	const [open, setOpen] = useState(0);
 	const date = useDatetimeItem({ id });
+	const calDateStype = { ...dateStyle, background: statusBgColor(date) };
 	const { isLoaded } = useStatus();
 	const { updateEntity } = useEntityMutator(EntityType.Datetime, id);
 	const { getRelations } = useRelations();
@@ -34,73 +53,58 @@ const DateCard: React.FC<ListItemProps> = ({ id }): JSX.Element => {
 		relation: 'tickets',
 	});
 
-	const startDate: Date = moment(date.startDate).toDate() || PLUS_ONE_MONTH;
-	const endDate: Date = moment(date.endDate as moment.MomentInput).toDate() || PLUS_TWO_MONTHS;
-	const defaultRangeValues: [Date, Date] = [startDate, endDate];
-	const [range, setRange] = useState<[Date, Date]>(defaultRangeValues);
+	const startDate: Date = moment(date.startDate) || moment(PLUS_ONE_MONTH);
+	const endDate: Date = moment(date.endDate) || moment(PLUS_TWO_MONTHS);
+	const defaultRangeValues: RangePickerValue = [startDate, endDate];
+	const [range, setRange] = useState<RangePickerValue>(defaultRangeValues);
 
 	const ticketsLoaded = isLoaded(TypeName.tickets);
 
 	return date ? (
 		<DatetimeProvider id={date.id}>
-			<Card elevation={Elevation.ONE} style={cardStyle}>
-				<EditDateButton position='top' />
-				<div style={idStyle}>
-					{date.dbId} {':'} {date.id}
-				</div>
-				<H4>
-					<InlineEditInput
-						component={EditableText}
-						placeholder='Edit title...'
-						value={date.name}
-						defaultValue={date.name}
-						onCancel={(value: any): void => {
-							console.log('DatetimeProvider title onCancel => NEEDS CALLBACK');
-							console.log('value', value);
-						}}
-						onConfirm={(name: string): MutationResult => updateEntity({ name })}
-						minWidth={'320px'}
-						selectAllOnFocus
-					/>
-				</H4>
+			<Card
+				cover={
+					<div style={calDateStype}>
+						<DateRangeDisplay range={[range[0].toDate(), range[1].toDate()]} />
+					</div>
+				}
+				style={cardStyle}
+			>
 				<div>
-					<H6>
-						<InlineEditInput
-							component={EditableText}
-							placeholder='Edit description...'
-							value={date.description}
-							defaultValue={date.description}
-							onCancel={(value: any): void => {
-								console.log('DatetimeProvider desc onCancel => NEEDS CALLBACK');
-								console.log('value', value);
-							}}
-							onConfirm={(description: string): MutationResult => updateEntity({ description })}
-							minWidth={'320px'}
-							multiline={true}
-							maxLines={4}
-							selectAllOnFocus
+					<div style={menuStyle}>
+						<EditDateButton id={date.id} style={{ marginBottom: '.5rem' }} />
+						<Button icon='calendar' type={'default'} onClick={(): void => setOpen(2)} />
+						<DeleteDatetimeButton id={date.id} disabled={!ticketsLoaded} style={{ marginTop: '.5rem' }} />
+					</div>
+					<div style={pickerStyle}>
+						<RangePicker
+							open={open > 0}
+							onOk={updateEntity}
+							defaultValue={range}
+							onCalendarChange={(dateRange: RangePickerValue): void => setRange(dateRange)}
+							format={dateFormat}
+							onOpenChange={(): void => setOpen(open - 1)}
 						/>
-					</H6>
+					</div>
+					<div style={idStyle}>
+						{date.dbId} {':'} {date.id}
+					</div>
+					<div style={cardDetailsStype}>
+						<h3 style={{ fontWeight: 'bold' }}>{date.name}</h3>
+						<h5>{date.description}</h5>
+						<br />
+						<div>
+							{ticketsLoaded && (
+								<>
+									{'Related Tickets: '}{' '}
+									{relatedTicketIds.filter(Boolean).map((ticketId) => (
+										<TicketIdTag key={ticketId} id={ticketId} />
+									))}
+								</>
+							)}
+						</div>
+					</div>
 				</div>
-				<div>
-					<DateRangeDisplay range={range} withTime />
-					<Popover lazy>
-						<Button icon='calendar' style={btnStyle} minimal />
-						<DateRangePicker onFieldUpdate={updateEntity} range={range} setRange={setRange} />
-					</Popover>
-				</div>
-				<div>
-					{ticketsLoaded && (
-						<>
-							{'Related Tickets: '}{' '}
-							{relatedTicketIds.filter(Boolean).map((ticketId) => (
-								<TicketIdTag key={ticketId} id={ticketId} />
-							))}
-						</>
-					)}
-				</div>
-				{/* Delete button should be hidden to avoid relational inconsistencies */}
-				{ticketsLoaded && <DeleteDatetimeButton id={date.id} />}
 			</Card>
 		</DatetimeProvider>
 	) : null;

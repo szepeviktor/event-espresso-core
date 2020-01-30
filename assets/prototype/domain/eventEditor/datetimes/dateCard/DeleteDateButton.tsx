@@ -1,24 +1,19 @@
-import * as React from 'react';
-import { Button } from '@blueprintjs/core';
+import React, { useCallback } from 'react';
+import { Button } from 'antd';
 
-import { useEntityMutator, EntityType, MutationResult } from '../../../../application/services/apollo/mutations';
+import { useEntityMutator, EntityType } from '../../../../application/services/apollo/mutations';
 import { ListItemProps } from '../../types';
 
-const DeleteDateButton: React.FC<ListItemProps> = ({ id }): JSX.Element => {
+type fn = () => void;
+
+const DeleteDateButton: React.FC<ListItemProps> = ({ id, ...rest }) => {
 	const { deleteEntity } = useEntityMutator(EntityType.Datetime, id);
 
-	return (
-		<div
-			style={{
-				bottom: '.5rem',
-				position: 'absolute',
-				right: '.5rem',
-				textAlign: 'right',
-			}}
-		>
-			<Button icon={'trash'} onClick={(): MutationResult => deleteEntity()} minimal />
-		</div>
-	);
+	const onClick = useCallback<fn>(() => {
+		deleteEntity();
+	}, []);
+
+	return <Button icon={'delete'} type={'default'} onClick={onClick} {...rest} />;
 };
 
 export default DeleteDateButton;

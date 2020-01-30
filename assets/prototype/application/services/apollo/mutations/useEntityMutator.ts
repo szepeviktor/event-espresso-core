@@ -44,7 +44,7 @@ const useEntityMutator = (type: EntityType, id = ''): EntityMutator => {
 	 * @param {object} options
 	 * @param {object} subscriptions Component subscriptions
 	 */
-	const subscribeAndMutate = (
+	const subscribeAndMutate = async (
 		options: CustomMutationOptions,
 		subscriptions: BackwardSubscription,
 		mutationType: MutationType
