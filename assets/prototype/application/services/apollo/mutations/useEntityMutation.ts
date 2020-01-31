@@ -72,8 +72,6 @@ const useEntityMutation = (type: EntityType, id?: string): EntityMutation => {
 		return { ...mutationOptions, update };
 	};
 
-	/**
-	 */
 	const getUpdateCallback = (mutationType: MutationType, onUpdate: OnUpdateFn): MutationUpdaterFn => {
 		/**
 		 * Since every mutation update callback is interested
