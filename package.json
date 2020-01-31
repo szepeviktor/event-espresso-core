@@ -19,7 +19,7 @@
 		"ci:build": "npm run build",
 		"ci:lint": "npm run lint",
 		"ci:test": "npm run test-js-ts",
-		"dev": "node scripts/start.js",
+		"dev": "node scripts/watch.js",
 		"generate": "graphql-codegen",
 		"lc": "jsgl --local ./",
 		"lint-php": "composer run-script lint",
@@ -31,8 +31,7 @@
 		"test-php": "cd tests && phpunit",
 		"test-js": "node scripts/test.js",
 		"test-js:coverage": "npm run test-js -- --coverage",
-		"test-js:coverage-ci": "npm run test-js -- --coverage --maxWorkers 1",
-		"watch": "node scripts/watch.js"
+		"test-js:coverage-ci": "npm run test-js -- --coverage --maxWorkers 1"
 	},
 	"browserslist": {
 		"production": [
