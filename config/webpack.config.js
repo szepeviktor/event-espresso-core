@@ -65,6 +65,7 @@ const pluginsConfigWithExternals = [
 module.exports = function(webpackEnv) {
 	const isEnvDevelopment = webpackEnv === 'development';
 	const isEnvProduction = webpackEnv === 'production';
+	const isEnvQA = webpackEnv === 'qa';
 
 	// Variable used for enabling profiling in Production
 	// passed into alias object. Uses a flag if passed into the build command
@@ -73,7 +74,7 @@ module.exports = function(webpackEnv) {
 	// Webpack uses `publicPath` to determine where the app is being served from.
 	// It requires a trailing slash, or the file assets will get an incorrect path.
 	// In development, we always serve from the root. This makes config easier.
-	const publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && '/';
+	const publicPath = isEnvProduction || isEnvQA ? paths.servedPath : isEnvDevelopment && '/';
 	// Some apps do not use client-side routing with pushState.
 	// For these, "homepage" can be set to "." to enable relative asset paths.
 	const shouldUseRelativeAssetPaths = publicPath === './';
@@ -81,7 +82,7 @@ module.exports = function(webpackEnv) {
 	// `publicUrl` is just like `publicPath`, but we will provide it to our app
 	// as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 	// Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-	const publicUrl = isEnvProduction ? publicPath.slice(0, -1) : isEnvDevelopment && '';
+	const publicUrl = isEnvProduction || isEnvQA ? publicPath.slice(0, -1) : isEnvDevelopment && '';
 	// Get environment variables to inject into our app.
 	const env = getClientEnvironment(publicUrl);
 
@@ -128,7 +129,7 @@ module.exports = function(webpackEnv) {
 				{
 					loader: require.resolve('resolve-url-loader'),
 					options: {
-						sourceMap: isEnvProduction && shouldUseSourceMap,
+						sourceMap: (isEnvProduction || isEnvQA) && shouldUseSourceMap,
 					},
 				},
 				{
@@ -154,7 +155,7 @@ module.exports = function(webpackEnv) {
 	};
 
 	return {
-		mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
+		mode: isEnvProduction || isEnvQA ? 'production' : isEnvDevelopment && 'development',
 		// Stop compilation early in production
 		bail: isEnvProduction,
 		devtool: isEnvProduction
@@ -173,18 +174,20 @@ module.exports = function(webpackEnv) {
 			pathinfo: isEnvDevelopment,
 			// There will be one main bundle, and one file per asynchronous chunk.
 			// In development, it does not produce real files.
-			filename: isEnvProduction ? '[name].[contenthash:8].js' : isEnvDevelopment && '[name].bundle.js',
+			filename: isEnvProduction || isEnvQA ? '[name].[contenthash:8].js' : isEnvDevelopment && '[name].bundle.js',
 			// TODO: remove this when upgrading to webpack 5
 			futureEmitAssets: true,
 			// There are also additional JS chunk files if you use code splitting.
-			chunkFilename: isEnvProduction ? '[name].[contenthash:8].dist.js' : isEnvDevelopment && '[name].dist.js',
+			chunkFilename:
+				isEnvProduction || isEnvQA ? '[name].[contenthash:8].dist.js' : isEnvDevelopment && '[name].dist.js',
 			// We inferred the "public path" (such as / or /my-project) from homepage.
 			// We use "/" in development.
 			publicPath: publicPath,
 			// Point sourcemap entries to original disk location (format as URL on Windows)
-			devtoolModuleFilenameTemplate: isEnvProduction
-				? (info) => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
-				: isEnvDevelopment && ((info) => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
+			devtoolModuleFilenameTemplate:
+				isEnvProduction || isEnvQA
+					? (info) => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
+					: isEnvDevelopment && ((info) => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
 			// Prevents conflicts when multiple Webpack runtimes (from different apps)
 			// are used on the same page.
 			jsonpFunction: `webpackJsonp${appPackageJson.name}`,
@@ -196,63 +199,65 @@ module.exports = function(webpackEnv) {
 			minimize: isEnvProduction,
 			minimizer: [
 				// This is only used in production mode
-				new TerserPlugin({
-					terserOptions: {
-						parse: {
-							// We want terser to parse ecma 8 code. However, we don't want it
-							// to apply any minification steps that turns valid ecma 5 code
-							// into invalid ecma 5 code. This is why the 'compress' and 'output'
-							// sections only apply transformations that are ecma 5 safe
-							// https://github.com/facebook/create-react-app/pull/4234
-							ecma: 8,
+				isEnvProduction &&
+					new TerserPlugin({
+						terserOptions: {
+							parse: {
+								// We want terser to parse ecma 8 code. However, we don't want it
+								// to apply any minification steps that turns valid ecma 5 code
+								// into invalid ecma 5 code. This is why the 'compress' and 'output'
+								// sections only apply transformations that are ecma 5 safe
+								// https://github.com/facebook/create-react-app/pull/4234
+								ecma: 8,
+							},
+							compress: {
+								ecma: 5,
+								warnings: false,
+								// Disabled because of an issue with Uglify breaking seemingly valid code:
+								// https://github.com/facebook/create-react-app/issues/2376
+								// Pending further investigation:
+								// https://github.com/mishoo/UglifyJS2/issues/2011
+								comparisons: false,
+								// Disabled because of an issue with Terser breaking valid code:
+								// https://github.com/facebook/create-react-app/issues/5250
+								// Pending further investigation:
+								// https://github.com/terser-js/terser/issues/120
+								inline: 2,
+							},
+							mangle: {
+								safari10: true,
+							},
+							// Added for profiling in devtools
+							keep_classnames: isEnvProductionProfile,
+							keep_fnames: isEnvProductionProfile,
+							output: {
+								ecma: 5,
+								comments: false,
+								// Turned on because emoji and regex is not minified properly using default
+								// https://github.com/facebook/create-react-app/issues/2488
+								ascii_only: true,
+							},
 						},
-						compress: {
-							ecma: 5,
-							warnings: false,
-							// Disabled because of an issue with Uglify breaking seemingly valid code:
-							// https://github.com/facebook/create-react-app/issues/2376
-							// Pending further investigation:
-							// https://github.com/mishoo/UglifyJS2/issues/2011
-							comparisons: false,
-							// Disabled because of an issue with Terser breaking valid code:
-							// https://github.com/facebook/create-react-app/issues/5250
-							// Pending further investigation:
-							// https://github.com/terser-js/terser/issues/120
-							inline: 2,
-						},
-						mangle: {
-							safari10: true,
-						},
-						// Added for profiling in devtools
-						keep_classnames: isEnvProductionProfile,
-						keep_fnames: isEnvProductionProfile,
-						output: {
-							ecma: 5,
-							comments: false,
-							// Turned on because emoji and regex is not minified properly using default
-							// https://github.com/facebook/create-react-app/issues/2488
-							ascii_only: true,
-						},
-					},
-					sourceMap: shouldUseSourceMap,
-				}),
+						sourceMap: shouldUseSourceMap,
+					}),
 				// This is only used in production mode
-				new OptimizeCSSAssetsPlugin({
-					cssProcessorOptions: {
-						parser: safePostCssParser,
-						map: shouldUseSourceMap
-							? {
-									// `inline: false` forces the sourcemap to be output into a
-									// separate file
-									inline: false,
-									// `annotation: true` appends the sourceMappingURL to the end of
-									// the css file, helping the browser find the sourcemap
-									annotation: true,
-							  }
-							: false,
-					},
-				}),
-			],
+				isEnvProduction &&
+					new OptimizeCSSAssetsPlugin({
+						cssProcessorOptions: {
+							parser: safePostCssParser,
+							map: shouldUseSourceMap
+								? {
+										// `inline: false` forces the sourcemap to be output into a
+										// separate file
+										inline: false,
+										// `annotation: true` appends the sourceMappingURL to the end of
+										// the css file, helping the browser find the sourcemap
+										annotation: true,
+								  }
+								: false,
+						},
+					}),
+			].filter(Boolean),
 			// Automatically split vendor and commons
 			// https://twitter.com/wSokra/status/969633336732905474
 			// https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
